@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ChevronRight, SlidersHorizontal, X } from "lucide-react";
 import Header from "@/components/Header";
@@ -14,8 +14,16 @@ const filters = {
   occasion: ["Daily Wear", "Party Wear", "Festive", "Night Wear"],
 };
 
+const categoryMap: Record<string, string> = {
+  infant: "Infant",
+  boys: "Boys",
+  girls: "Girls",
+  "ethnic-wear": "Ethnic Wear",
+  "western-wear": "Western Wear",
+};
+
 const CategoryPage = () => {
-  const { category } = useParams();
+  const { category, subcategory } = useParams();
   const [showFilters, setShowFilters] = useState(false);
   const [sortBy, setSortBy] = useState("popularity");
   const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
@@ -24,15 +32,37 @@ const CategoryPage = () => {
     ? category.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
     : "All Products";
 
+  const subcategoryTitle = subcategory
+    ? subcategory.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
+    : null;
+
+  // Filter products by category
+  const filteredProducts = useMemo(() => {
+    let result = [...products];
+
+    // Special categories
+    if (category === "best-seller") {
+      result = products.filter(p => p.badge === "Best Seller" || p.rating >= 4.7);
+    } else if (category === "sale") {
+      result = products.filter(p => p.originalPrice || p.badge === "Sale");
+    } else if (category === "festive") {
+      result = products.filter(p => p.badge === "Festive" || p.category === "Ethnic Wear");
+    } else if (category && categoryMap[category]) {
+      result = products.filter(p => p.category === categoryMap[category]);
+    }
+
+    // Sort
+    if (sortBy === "price-low") result.sort((a, b) => a.price - b.price);
+    else if (sortBy === "price-high") result.sort((a, b) => b.price - a.price);
+    else if (sortBy === "newest") result.reverse();
+
+    return result;
+  }, [category, subcategory, sortBy]);
+
   const toggleFilter = (group: string, value: string) => {
     setSelectedFilters((prev) => {
       const current = prev[group] || [];
-      return {
-        ...prev,
-        [group]: current.includes(value)
-          ? current.filter((v) => v !== value)
-          : [...current, value],
-      };
+      return { ...prev, [group]: current.includes(value) ? current.filter((v) => v !== value) : [...current, value] };
     });
   };
 
@@ -45,9 +75,7 @@ const CategoryPage = () => {
           return (
             <label key={option} className="flex items-center gap-2.5 cursor-pointer group">
               <div
-                className={`w-4 h-4 rounded border-2 transition-colors flex items-center justify-center ${
-                  isSelected ? "bg-primary border-primary" : "border-border group-hover:border-primary/50"
-                }`}
+                className={`w-4 h-4 rounded border-2 transition-colors flex items-center justify-center ${isSelected ? "bg-primary border-primary" : "border-border group-hover:border-primary/50"}`}
                 onClick={() => toggleFilter(groupKey, option)}
               >
                 {isSelected && (
@@ -56,9 +84,7 @@ const CategoryPage = () => {
                   </svg>
                 )}
               </div>
-              <span className="font-body text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                {option}
-              </span>
+              <span className="font-body text-sm text-muted-foreground group-hover:text-foreground transition-colors">{option}</span>
             </label>
           );
         })}
@@ -71,37 +97,34 @@ const CategoryPage = () => {
       <Header />
 
       <main className="container mx-auto px-4 py-6">
-        {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm font-body text-muted-foreground mb-6">
           <Link to="/" className="hover:text-primary transition-colors">Home</Link>
           <ChevronRight className="h-3 w-3" />
-          <span className="text-foreground font-medium">{categoryTitle}</span>
+          {subcategoryTitle ? (
+            <>
+              <Link to={`/category/${category}`} className="hover:text-primary transition-colors">{categoryTitle}</Link>
+              <ChevronRight className="h-3 w-3" />
+              <span className="text-foreground font-medium">{subcategoryTitle}</span>
+            </>
+          ) : (
+            <span className="text-foreground font-medium">{categoryTitle}</span>
+          )}
         </nav>
 
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground">
-              {categoryTitle}
+              {subcategoryTitle || categoryTitle}
             </h1>
-            <p className="font-body text-sm text-muted-foreground mt-1">
-              {products.length} products
-            </p>
+            <p className="font-body text-sm text-muted-foreground mt-1">{filteredProducts.length} products</p>
           </div>
 
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="md:hidden flex items-center gap-2 px-4 py-2 border border-border rounded-full font-body text-sm"
-            >
+            <button onClick={() => setShowFilters(!showFilters)} className="md:hidden flex items-center gap-2 px-4 py-2 border border-border rounded-full font-body text-sm">
               <SlidersHorizontal className="h-4 w-4" />
               Filters
             </button>
-
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="bg-card border border-border rounded-full px-4 py-2 font-body text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
-            >
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="bg-card border border-border rounded-full px-4 py-2 font-body text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20">
               <option value="popularity">Sort by Popularity</option>
               <option value="price-low">Price: Low to High</option>
               <option value="price-high">Price: High to Low</option>
@@ -111,7 +134,6 @@ const CategoryPage = () => {
         </div>
 
         <div className="flex gap-8">
-          {/* Sidebar Filters - Desktop */}
           <aside className="hidden md:block w-60 flex-shrink-0">
             <div className="sticky top-40">
               <h3 className="font-display text-lg font-bold text-foreground mb-6">Filters</h3>
@@ -123,16 +145,13 @@ const CategoryPage = () => {
             </div>
           </aside>
 
-          {/* Mobile Filters Overlay */}
           {showFilters && (
             <div className="fixed inset-0 z-50 md:hidden">
               <div className="absolute inset-0 bg-foreground/30" onClick={() => setShowFilters(false)} />
               <div className="absolute right-0 top-0 bottom-0 w-80 bg-card p-6 overflow-y-auto shadow-card">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="font-display text-lg font-bold text-foreground">Filters</h3>
-                  <button onClick={() => setShowFilters(false)}>
-                    <X className="h-5 w-5 text-foreground" />
-                  </button>
+                  <button onClick={() => setShowFilters(false)}><X className="h-5 w-5 text-foreground" /></button>
                 </div>
                 <FilterSection title="Age Group" options={filters.age} groupKey="age" />
                 <FilterSection title="Size" options={filters.size} groupKey="size" />
@@ -143,13 +162,21 @@ const CategoryPage = () => {
             </div>
           )}
 
-          {/* Product Grid */}
           <div className="flex-1">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-              {products.map((product, i) => (
-                <ProductCard key={product.id} product={product} index={i} />
-              ))}
-            </div>
+            {filteredProducts.length > 0 ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                {filteredProducts.map((product, i) => (
+                  <ProductCard key={product.id} product={product} index={i} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-20">
+                <p className="font-body text-lg text-muted-foreground mb-4">No products found in this category yet</p>
+                <Link to="/" className="gradient-cta text-primary-foreground font-body font-bold text-sm px-8 py-3 rounded-full inline-block">
+                  Browse All Products
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </main>
