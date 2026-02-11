@@ -50,7 +50,7 @@ const HeroSection = () => {
   const prev = () => setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <section className="relative h-[70vh] md:h-[80vh] overflow-hidden">
+    <section className="relative h-[50vh] md:h-[60vh] overflow-hidden bg-white">
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
@@ -58,18 +58,42 @@ const HeroSection = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.7 }}
-          className="absolute inset-0"
+          className="absolute inset-0 flex items-center justify-center"
         >
           <img
             src={slides[current].image}
             alt={slides[current].title}
-            className="w-full h-full object-cover"
+            className="max-w-full max-h-full w-auto h-auto object-contain"
           />
         </motion.div>
       </AnimatePresence>
 
-      <div className="container mx-auto px-4 relative z-10 h-full flex items-center">
-        {/* Text removed from hero image as requested */}
+      <div className="container mx-auto px-4 relative z-10 h-full flex items-center justify-center">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col items-center"
+          >
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link
+                to={slides[current].ctaLink}
+                className="inline-flex items-center justify-center bg-primary text-primary-foreground font-body font-semibold text-sm px-8 py-3.5 rounded-full hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5 whitespace-nowrap"
+              >
+                {slides[current].ctaText}
+              </Link>
+              <Link
+                to={slides[current].secondaryCtaLink}
+                className="inline-flex items-center justify-center bg-secondary text-secondary-foreground border border-border font-body font-semibold text-sm px-8 py-3.5 rounded-full hover:bg-muted transition-all duration-300 whitespace-nowrap"
+              >
+                {slides[current].secondaryCtaText}
+              </Link>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
