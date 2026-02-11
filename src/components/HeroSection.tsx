@@ -13,6 +13,16 @@ const slides = [
     ctaLink: "/category/best-seller",
     secondaryCtaText: "Festive Collection",
     secondaryCtaLink: "/category/festive"
+  },
+  {
+    image: "/hero-bg-2.jpg",
+    title: "New Arrivals",
+    subtitle: "Spring Style",
+    description: "Discover our latest collection for the new season. Comfortable and trendy outfits for every child.",
+    ctaText: "Shop Now",
+    ctaLink: "/category/new-arrivals",
+    secondaryCtaText: "View Collection",
+    secondaryCtaLink: "/category/spring-collection"
   }
 ];
 
