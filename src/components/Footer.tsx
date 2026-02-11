@@ -36,10 +36,16 @@ const Footer = () => {
               Shop
             </h4>
             <ul className="space-y-2.5">
-              {["Infant", "Boys", "Girls", "Ethnic Wear", "Sale"].map((item) => (
-                <li key={item}>
-                  <Link to="#" className="font-body text-sm hover:text-primary-foreground transition-colors">
-                    {item}
+              {[
+                { name: "Infant", path: "/shop/infant" },
+                { name: "Boys", path: "/shop/boys" },
+                { name: "Girls", path: "/shop/girls" },
+                { name: "Ethnic Wear", path: "/shop/ethnic-wear" },
+                { name: "Sale", path: "/shop/sale" }
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link to={item.path} className="font-body text-sm hover:text-primary-foreground transition-colors">
+                    {item.name}
                   </Link>
                 </li>
               ))}
@@ -52,10 +58,16 @@ const Footer = () => {
               Help
             </h4>
             <ul className="space-y-2.5">
-              {["Size Guide", "Track Order", "Returns", "FAQs", "Contact Us"].map((item) => (
-                <li key={item}>
-                  <Link to="#" className="font-body text-sm hover:text-primary-foreground transition-colors">
-                    {item}
+              {[
+                { name: "Size Guide", path: "/help/size-guide" },
+                { name: "Track Order", path: "/help/track-order" },
+                { name: "Returns", path: "/help/returns" },
+                { name: "FAQs", path: "/help/faqs" },
+                { name: "Contact Us", path: "/help/contact" }
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link to={item.path} className="font-body text-sm hover:text-primary-foreground transition-colors">
+                    {item.name}
                   </Link>
                 </li>
               ))}
