@@ -37,11 +37,11 @@ const Footer = () => {
             </h4>
             <ul className="space-y-2.5">
               {[
-                { name: "Infant", path: "/shop/infant" },
-                { name: "Boys", path: "/shop/boys" },
-                { name: "Girls", path: "/shop/girls" },
-                { name: "Ethnic Wear", path: "/shop/ethnic-wear" },
-                { name: "Sale", path: "/shop/sale" }
+                { name: "Infant", path: "/category/infant" },
+                { name: "Boys", path: "/category/boys" },
+                { name: "Girls", path: "/category/girls" },
+                { name: "Ethnic Wear", path: "/category/ethnic-wear" },
+                { name: "Sale", path: "/category/sale" }
               ].map((item) => (
                 <li key={item.name}>
                   <Link to={item.path} className="font-body text-sm hover:text-primary-foreground transition-colors">

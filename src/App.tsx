@@ -41,11 +41,11 @@ const App = () => (
             <Route path="/cart" element={<CartPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/shop/infant" element={<Infant />} />
-            <Route path="/shop/boys" element={<Boys />} />
-            <Route path="/shop/girls" element={<Girls />} />
-            <Route path="/shop/ethnic-wear" element={<EthnicWear />} />
-            <Route path="/shop/sale" element={<Sale />} />
+            <Route path="/shop/infant" element={<CategoryPage />} />
+            <Route path="/shop/boys" element={<CategoryPage />} />
+            <Route path="/shop/girls" element={<CategoryPage />} />
+            <Route path="/shop/ethnic-wear" element={<CategoryPage />} />
+            <Route path="/shop/sale" element={<CategoryPage />} />
             <Route path="/help/size-guide" element={<SizeGuide />} />
             <Route path="/help/track-order" element={<TrackOrder />} />
             <Route path="/help/returns" element={<Returns />} />
