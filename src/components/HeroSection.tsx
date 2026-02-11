@@ -65,7 +65,6 @@ const HeroSection = () => {
             alt={slides[current].title}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/30" />
         </motion.div>
       </AnimatePresence>
 
@@ -77,19 +76,19 @@ const HeroSection = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
             transition={{ duration: 0.5 }}
-            className="max-w-xl text-white"
+            className="max-w-xl text-foreground"
           >
-            <span className="inline-block text-sm font-body font-medium tracking-[0.2em] uppercase mb-4 opacity-90">
+            <span className="inline-block text-sm font-body font-medium tracking-[0.2em] uppercase mb-4 text-primary">
               New Season Collection
             </span>
 
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 drop-shadow-md">
+            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6">
               {slides[current].title}
               <br />
-              <span className="text-primary-foreground">{slides[current].subtitle}</span>
+              <span className="text-primary">{slides[current].subtitle}</span>
             </h1>
 
-            <p className="font-body text-lg mb-8 max-w-md opacity-90 drop-shadow-sm">
+            <p className="font-body text-lg mb-8 max-w-md text-muted-foreground">
               {slides[current].description}
             </p>
 
@@ -102,7 +101,7 @@ const HeroSection = () => {
               </Link>
               <Link
                 to={slides[current].secondaryCtaLink}
-                className="inline-flex items-center justify-center bg-white/20 backdrop-blur-sm border border-white/30 text-white font-body font-semibold text-sm px-8 py-3.5 rounded-full hover:bg-white/30 transition-all duration-300"
+                className="inline-flex items-center justify-center bg-secondary text-secondary-foreground border border-border font-body font-semibold text-sm px-8 py-3.5 rounded-full hover:bg-muted transition-all duration-300"
               >
                 {slides[current].secondaryCtaText}
               </Link>
@@ -111,26 +110,13 @@ const HeroSection = () => {
         </AnimatePresence>
       </div>
 
-      <button
-        onClick={prev}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40 transition-colors text-white"
-      >
-        <ChevronLeft size={24} />
-      </button>
-      <button
-        onClick={next}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40 transition-colors text-white"
-      >
-        <ChevronRight size={24} />
-      </button>
-
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}
             className={`w-2 h-2 rounded-full transition-all ${
-              current === i ? "bg-white w-6" : "bg-white/50"
+              current === i ? "bg-primary w-6" : "bg-primary/30"
             }`}
           />
         ))}
