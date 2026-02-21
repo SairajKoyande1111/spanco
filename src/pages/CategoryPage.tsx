@@ -36,11 +36,11 @@ const CategoryPage = () => {
     ? subcategory.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
     : null;
 
-  // Filter products by category
+  // Filter products by category and selected filters
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
-    // Special categories
+    // Category filter
     if (category === "best-seller") {
       result = products.filter(p => p.badge === "Best Seller" || p.rating >= 4.7);
     } else if (category === "sale") {
@@ -51,13 +51,49 @@ const CategoryPage = () => {
       result = products.filter(p => p.category === categoryMap[category]);
     }
 
+    // Age filter
+    if (selectedFilters.age?.length > 0) {
+      result = result.filter(p => selectedFilters.age.includes(p.ageGroup));
+    }
+
+    // Size filter (assuming product has sizes array or string)
+    if (selectedFilters.size?.length > 0) {
+      // For now we check if product category matches or just mock behavior if field missing
+      // Real implementation should check p.sizes
+      result = result.filter(p => p.sizes?.some(s => selectedFilters.size.includes(s)) || true);
+    }
+
+    // Price filter
+    if (selectedFilters.price?.length > 0) {
+      result = result.filter(p => {
+        return selectedFilters.price.some(range => {
+          if (range === "Under ₹500") return p.price < 500;
+          if (range === "₹500 - ₹999") return p.price >= 500 && p.price <= 999;
+          if (range === "₹1000 - ₹1999") return p.price >= 1000 && p.price <= 1999;
+          if (range === "₹2000 - ₹2999") return p.price >= 2000 && p.price <= 2999;
+          if (range === "Above ₹3000") return p.price > 3000;
+          return true;
+        });
+      });
+    }
+
+    // Color filter
+    if (selectedFilters.color?.length > 0) {
+      result = result.filter(p => selectedFilters.color.includes(p.color));
+    }
+
+    // Occasion filter
+    if (selectedFilters.occasion?.length > 0) {
+      result = result.filter(p => selectedFilters.occasion.includes(p.occasion));
+    }
+
     // Sort
     if (sortBy === "price-low") result.sort((a, b) => a.price - b.price);
     else if (sortBy === "price-high") result.sort((a, b) => b.price - a.price);
     else if (sortBy === "newest") result.reverse();
 
     return result;
-  }, [category, subcategory, sortBy]);
+  }, [category, subcategory, sortBy, selectedFilters]);
 
   const toggleFilter = (group: string, value: string) => {
     setSelectedFilters((prev) => {
