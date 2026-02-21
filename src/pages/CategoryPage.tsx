@@ -53,14 +53,12 @@ const CategoryPage = () => {
 
     // Age filter
     if (selectedFilters.age?.length > 0) {
-      result = result.filter(p => selectedFilters.age.includes(p.ageGroup));
+      result = result.filter(p => selectedFilters.age.includes(p.age));
     }
 
     // Size filter (assuming product has sizes array or string)
     if (selectedFilters.size?.length > 0) {
-      // For now we check if product category matches or just mock behavior if field missing
-      // Real implementation should check p.sizes
-      result = result.filter(p => p.sizes?.some(s => selectedFilters.size.includes(s)) || true);
+      result = result.filter(p => p.sizes?.some(s => selectedFilters.size.includes(s)));
     }
 
     // Price filter
@@ -79,12 +77,17 @@ const CategoryPage = () => {
 
     // Color filter
     if (selectedFilters.color?.length > 0) {
-      result = result.filter(p => selectedFilters.color.includes(p.color));
+      result = result.filter(p => p.colors?.some(c => selectedFilters.color.includes(c)));
     }
 
-    // Occasion filter
+    // Occasion filter - Map badge/category since occasion field is missing in data
     if (selectedFilters.occasion?.length > 0) {
-      result = result.filter(p => selectedFilters.occasion.includes(p.occasion));
+      result = result.filter(p => {
+        if (selectedFilters.occasion.includes("Festive") && (p.badge === "Festive" || p.category === "Ethnic Wear")) return true;
+        if (selectedFilters.occasion.includes("Party Wear") && p.price > 2000) return true;
+        if (selectedFilters.occasion.includes("Daily Wear") && p.price < 1500) return true;
+        return false;
+      });
     }
 
     // Sort
