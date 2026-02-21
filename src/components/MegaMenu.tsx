@@ -7,7 +7,7 @@ interface MegaMenuProps {
 
 const MegaMenu = ({ groups }: MegaMenuProps) => {
   return (
-    <div className="absolute top-full left-1/2 -translate-x-1/2 bg-popover border border-border rounded-lg shadow-card animate-slide-down z-50 min-w-[280px]">
+    <div className="absolute top-full left-0 bg-popover border border-border rounded-lg shadow-card animate-slide-down z-50 min-w-[280px]">
       <div className="p-6 flex gap-10">
         {groups.map((group) => (
           <div key={group.title}>
