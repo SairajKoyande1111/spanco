@@ -22,7 +22,7 @@ const Header = () => {
             </button>
 
             <Link to="/" className="absolute left-1/2 -translate-x-1/2">
-              <img src="/logo.png" alt="Spanco Kids Fashion" className="h-16 md:h-20 w-auto object-contain" />
+              <img src="/logo.png" alt="Spanco Kids Fashion" className="h-24 md:h-32 w-auto object-contain" />
             </Link>
 
             <div className="flex items-center gap-1">
@@ -57,7 +57,7 @@ const Header = () => {
 
         <nav className="border-t border-border hidden md:block">
           <div className="container mx-auto px-4">
-            <ul className="flex items-center justify-center gap-4">
+            <ul className="flex items-center justify-center gap-8">
               {navigationItems.map((item) => (
                 <li
                   key={item.title}
@@ -67,7 +67,7 @@ const Header = () => {
                 >
                   <Link
                     to={item.href}
-                    className="flex items-center gap-1.5 px-2 py-3 text-base font-body font-medium text-foreground/80 hover:text-primary transition-colors relative group"
+                    className="flex items-center gap-1.5 px-4 py-3 text-base font-body font-medium text-foreground/80 hover:text-primary transition-colors relative group"
                   >
                     <span>{item.title}</span>
                     {item.badge && (
