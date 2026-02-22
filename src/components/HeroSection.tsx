@@ -31,7 +31,7 @@ const HeroSection = () => {
             <img
               src={slides[current].image}
               alt="Spanco Kids Fashion Banner"
-              className="w-full h-auto max-h-[85vh] object-contain mx-auto"
+              className="w-full h-auto max-h-[85vh] object-cover"
             />
           </motion.div>
         </AnimatePresence>
