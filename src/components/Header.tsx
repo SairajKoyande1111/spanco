@@ -14,12 +14,12 @@ const Header = () => {
   return (
     <>
       <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
-        <div className="container mx-auto px-4 py-2">
-          <div className="flex items-center justify-between gap-4">
+        <div className="container mx-auto px-4 py-0">
+          <div className="flex items-center justify-between gap-4 h-14 md:h-16">
             {/* Logo on Left */}
-            <div className="flex-shrink-0">
-              <Link to="/">
-                <img src="/logo.png" alt="Spanco Kids Fashion" className="h-20 md:h-28 w-auto object-contain" />
+            <div className="flex-shrink-0 h-full flex items-center">
+              <Link to="/" className="h-full flex items-center">
+                <img src="/logo.png" alt="Spanco Kids Fashion" className="h-[120%] md:h-[140%] w-auto object-contain translate-y-1" />
               </Link>
             </div>
 
