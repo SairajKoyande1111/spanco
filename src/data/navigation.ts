@@ -110,16 +110,13 @@ export const navigationItems: NavItem[] = [
   {
     title: "Best Seller",
     href: "/category/best-seller",
-    badge: "🔥",
   },
   {
     title: "Sale",
     href: "/category/sale",
-    badge: "SALE",
   },
   {
     title: "Festive Collection",
     href: "/category/festive",
-    badge: "NEW",
   },
 ];

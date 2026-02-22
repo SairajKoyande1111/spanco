@@ -15,8 +15,6 @@ const Header = () => {
   return (
     <>
       <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
-        <TopBar />
-
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <button onClick={() => setSearchOpen(true)} className="p-2 hover:bg-muted rounded-full transition-colors">
@@ -24,12 +22,7 @@ const Header = () => {
             </button>
 
             <Link to="/" className="absolute left-1/2 -translate-x-1/2">
-              <h1 className="font-display text-2xl md:text-3xl font-bold tracking-wider text-foreground">
-                SPANCO
-              </h1>
-              <p className="text-[9px] tracking-[0.3em] text-muted-foreground text-center uppercase">
-                Kids Fashion
-              </p>
+              <img src="/logo.png" alt="Spanco Kids Fashion" className="h-16 md:h-20 w-auto object-contain" />
             </Link>
 
             <div className="flex items-center gap-1">
@@ -64,7 +57,7 @@ const Header = () => {
 
         <nav className="border-t border-border hidden md:block">
           <div className="container mx-auto px-4">
-            <ul className="flex items-center justify-center gap-0">
+            <ul className="flex items-center justify-center gap-4">
               {navigationItems.map((item) => (
                 <li
                   key={item.title}
@@ -74,7 +67,7 @@ const Header = () => {
                 >
                   <Link
                     to={item.href}
-                    className="flex items-center gap-1.5 px-4 py-3 text-sm font-body font-medium text-foreground/80 hover:text-primary transition-colors relative group"
+                    className="flex items-center gap-1.5 px-2 py-3 text-base font-body font-medium text-foreground/80 hover:text-primary transition-colors relative group"
                   >
                     <span>{item.title}</span>
                     {item.badge && (

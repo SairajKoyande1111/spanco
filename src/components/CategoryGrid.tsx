@@ -10,10 +10,6 @@ const categories = [
   { title: "Boys", subtitle: "Cool & Trendy", image: categoryBoys, href: "/category/boys" },
   { title: "Girls", subtitle: "Sweet & Pretty", image: categoryGirls, href: "/category/girls" },
   { title: "Ethnic Wear", subtitle: "Traditional", image: categoryEthnic, href: "/category/ethnic-wear" },
-  { title: "Western Wear", subtitle: "Modern Styles", image: "/images/hero-1.jpg", href: "/category/western-wear" },
-  { title: "Best Seller", subtitle: "Most Loved", image: "/images/hero-2.jpg", href: "/category/best-seller" },
-  { title: "Sale", subtitle: "Flat 50% Off", image: "/images/hero-3.png", href: "/category/sale" },
-  { title: "Festive Collection", subtitle: "Ethnic Magic", image: "/images/hero-3.png", href: "/category/festive" },
 ];
 
 const CategoryGrid = () => {
@@ -29,7 +25,7 @@ const CategoryGrid = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
           {categories.map((cat, i) => (
             <motion.div
               key={cat.title}
